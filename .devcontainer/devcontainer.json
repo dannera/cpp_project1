@@ -1,0 +1,28 @@
+{
+    "name": "cpp-dev",
+
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cmake-tools",
+                "llvm-vs-code-extensions.vscode-clangd",
+                "ms-azuretools.vscode-docker",
+                "eamodio.gitlens"
+            ],
+
+            "settings": {
+                "cmake.configureOnOpen": true,
+                "editor.formatOnSave": true,
+                "C_Cpp.intelliSenseEngine": "disabled"
+            }
+        }
+    },
+
+    "remoteUser": "vscode"
+}

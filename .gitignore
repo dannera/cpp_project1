@@ -1,0 +1,14 @@
+# Build artifacts
+build
+
+# VS Code local settings
+.vscode
+
+# Conan cacheoutput
+.conan
+
+# CMake
+CMakeUserPresets.json
+
+# Linux
+.swp
