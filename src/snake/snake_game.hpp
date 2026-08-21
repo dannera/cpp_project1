@@ -1,6 +1,6 @@
 #pragma once
 
-namespace snake
+namespace snake_game
 {
 int run();
 }

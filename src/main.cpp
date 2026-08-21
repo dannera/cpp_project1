@@ -2,5 +2,5 @@
 
 int main()
 {
-    return snake::run();
+    return snake_game::run();
 }
