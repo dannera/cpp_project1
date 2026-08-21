@@ -7,4 +7,5 @@ set(CMAKE_CXX_STANDARD 23)
 add_executable(
     my_app
     src/main.cpp
+    src/snake/snake_game.cpp
 )
