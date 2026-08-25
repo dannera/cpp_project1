@@ -4,6 +4,8 @@ project(MyProject)
 
 set(CMAKE_CXX_STANDARD 23)
 
+find_package(raylib CONFIG REQUIRED)
+
 add_executable(
     my_app
     src/main.cpp
@@ -11,3 +13,5 @@ add_executable(
     src/snake/board.cpp
     src/snake/snake_game.cpp
 )
+
+target_link_libraries(my_app PRIVATE raylib)

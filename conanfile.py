@@ -6,6 +6,7 @@ class MyProjectConan(ConanFile):
     name = "my_project"
     version = "0.1.0"
     settings = "os", "compiler", "build_type", "arch"
+    requires = "raylib/5.5"
     generators = "CMakeToolchain", "CMakeDeps"
     exports_sources = "CMakeLists.txt", "src/*"
 
