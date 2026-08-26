@@ -1,37 +1,38 @@
 #pragma once
 
-#include "snake.hpp"
-
 #include <raylib.h>
 
+#include "snake_types.hpp"
 #include <random>
 
 namespace snake_game
 {
+
 class Board
 {
 public:
-    Board(int width, int height, Position snake_start);
+    Board(int width, int height, int cell_size = 32, int offset_x = 32, int offset_y = 96);
     ~Board();
 
+    static constexpr Color background_color{18, 25, 38, 255};
+    static constexpr Color board_color{30, 41, 59, 255};
     Board(const Board&) = delete;
     Board& operator=(const Board&) = delete;
-
-    bool collides() const;
-    void place_food();
-    void initialize_graphics(int window_width, int window_height);
+    
+    int cell_size;
+    int offset_x;
+    int offset_y;
+    void initialize_graphics();
     void shutdown_graphics();
-    void draw(int score, float interpolation) const;
-
-    snake& player_snake();
-    Food food();
+    void draw(int score) const;
+    int width() const;
+    int height() const;
 
 private:
+    int window_width_;
+    int window_height_;
     int width_;
     int height_;
-    snake snake_;
-    Position food_;
-    std::mt19937 random_;
     RenderTexture2D static_layer_{};
 };
 }

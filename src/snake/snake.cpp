@@ -1,15 +1,16 @@
 #include "snake.hpp"
 
+#include <algorithm>
+
 namespace snake_game
 {
-snake::snake(Position start)
-        : positions_{start, {start.x - 1, start.y}, {start.x - 2, start.y}},
-            previous_positions_(positions_)
+Snake::Snake(Position start)
+        : positions_{start, {start.x - 1, start.y}, {start.x - 2, start.y}}
 {
         this->direction = Direction::Right;
 }
 
-void snake::change_direction(Direction new_direction)
+void Snake::change_direction(Direction new_direction)
 {
     if ((this->direction == Direction::Up && new_direction != Direction::Down) ||
         (this->direction == Direction::Down && new_direction != Direction::Up) ||
@@ -19,40 +20,52 @@ void snake::change_direction(Direction new_direction)
         this->direction = new_direction;
     }
 }
-void snake::move()
+bool Snake::move()
 {
-    previous_positions_ = positions_;
     Position next = head();
     if (this->direction == Direction::Up) --next.y;
     if (this->direction == Direction::Down) ++next.y;
     if (this->direction == Direction::Left) --next.x;
     if (this->direction == Direction::Right) ++next.x;
     positions_.pop_back();
-    if (find(next == positions_.back())
+    if (std::find(positions_.begin(), positions_.end(), next) != positions_.end())
     {
-        next = previous_positions_.back();
+        return false;
     }
 
     positions_.push_front(next);
+    return true;
 }
 
-void snake::eat()
+void Snake::draw(const Board& board) const
+{   
+    bool is_head_position = true;
+    for (const Position& segment : positions_)
+    {
+        const Color color = is_head_position ? this->head_color : this->body_color;
+        is_head_position = false;
+        DrawRectangle(board.offset_x + segment.x * board.cell_size + 2,
+                      board.offset_y + segment.y * board.cell_size + 2,
+                      board.cell_size - 4, board.cell_size - 4, color);
+    }
+}
+
+void Snake::eat()
 {
-    previous_positions_.push_back(positions_.back());
     positions_.push_back(positions_.back());
 }
-
-const std::deque<Position>& snake::positions() const
+bool Snake::is_outside(const Board& board) const
+{
+    const Position head_position = head();
+    return head_position.x < 0 || head_position.x >= board.width() ||
+           head_position.y < 0 || head_position.y >= board.height();
+}
+const std::deque<Position>& Snake::positions() const
 {
     return positions_;
 }
 
-const std::deque<Position>& snake::previous_positions() const
-{
-    return previous_positions_;
-}
-
-Position snake::head() const
+Position Snake::head() const
 {
     return positions_.front();
 }

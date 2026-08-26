@@ -11,6 +11,7 @@ add_executable(
     src/main.cpp
     src/snake/snake.cpp
     src/snake/board.cpp
+    src/snake/food.cpp
     src/snake/snake_game.cpp
 )
 

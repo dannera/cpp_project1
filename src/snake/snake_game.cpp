@@ -10,63 +10,30 @@
 
 namespace snake_game
 {
-namespace
-{
-constexpr int board_width = 16;
-constexpr int board_height = 16;
 
+
+SnakeGame::~SnakeGame() = default;
 
 int run()
 {
-
-    SnakeGame snake_game = SnakeGame();
-    int score = 0;
-    bool game_over = false;
-    float movement_timer = 0.0F;
-
+    int window_width = 500;
+    int window_height = 500;
     InitWindow(window_width, window_height, "Snake");
     SetTargetFPS(60);
-    board.initialize_graphics(window_width, window_height);
+    SnakeGame snake_game = SnakeGame(window_width, window_height);
+    snake_game.initialize_graphics();
 
-    while (!WindowShouldClose() && !game_over)
+    while (!WindowShouldClose() && !snake_game.is_game_over())
     {
-
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        
-        
-        snake_game.update();
-        snake_game.draw();
-        EndDrawing();
-        /*
-        direction = read_direction(direction);
-        if (IsKeyPressed(KEY_ESCAPE)) break;
-
-        movement_timer += GetFrameTime();
-        while (movement_timer >= step_duration)
+        snake_game.get_user_input();
+        if(snake_game.cycle_triggered())
         {
-            movement_timer -= step_duration;
-            board.player_snake().move(direction);
-
-            if (board.collides())
-            {
-                game_over = true;
-                break;
-            }
-
-            if (board.player_snake().head() == board.food())
-            {
-                board.player_snake().eat();
-                ++score;
-                board.place_food();
-            }
+            snake_game.update();
         }
-
-        board.draw(score, movement_timer / step_duration);
-        */
+        snake_game.draw();
     }
 
-    board.shutdown_graphics();
+    snake_game.shutdown_graphics();
     CloseWindow();
     return EXIT_SUCCESS;
 }
